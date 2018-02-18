@@ -1,21 +1,16 @@
 <html>
 <head>
-  <title></title>
+  <title>JavaScript Programming | ZENVA.com</title>
   <meta name="viewport" content="width=device-width, user-scalable=no" />
   <style>
     canvas {
       border: 1px solid black;
       width: 100%;
     }
-    body {
-	    padding: 0;
-   	    margin: 0;
-	    background-color: black;
-    }
   </style>
 </head>
 <body>
-  <h1>Sprites</h1>
+  <h1>Challenge Solution - Adding Enemies</h1>
   <canvas id="mycanvas" width="640" height="360" ></canvas>
   <script>
     window.addEventListener("load",function() {
@@ -56,15 +51,34 @@
           speedY: 5,
           w: 40,
           h: 40
+        },
+        /*
+      CHALLENGE SOLUTION bellow
+      */
+        {
+          x: 300,
+          y: 100,
+          speedY: 1,
+          w: 40,
+          h: 40
+        },
+        {
+          x: 140,
+          y: 300,
+          speedY: 1,
+          w: 40,
+          h: 40
         }
       ];
+
+      
 
       //the player object
       var player = {
         x: 10,
         y: 160,
         speedX: 2.5,
-        isMoving: false,  //keep track whether the player is moving or not
+        isMoving: 0,
         w: 40,
         h: 40
       };
@@ -99,16 +113,16 @@
 
       var load = function() {
         sprites.player = new Image();
-        sprites.player.src = 'images/sandwich.png';
+        sprites.player.src = 'images/hero.png';
 
         sprites.background = new Image();
-        sprites.background.src = 'images/kitchen.png';
+        sprites.background.src = 'images/floor.png';
 
         sprites.enemy = new Image();
-        sprites.enemy.src = 'images/knife.png';
+        sprites.enemy.src = 'images/enemy.png';
 
         sprites.goal = new Image();
-        sprites.goal.src = 'images/plate.png';
+        sprites.goal.src = 'images/chest.png';
       };
 
       //update the logic

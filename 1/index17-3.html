@@ -1,0 +1,74 @@
+<html>
+	<head></head>
+	<body>
+		<h1>Boolean Variables</h1>
+		<canvas id="mycanvas" width="500" height="300"></canvas>
+
+		<script> 
+		console.log("Testing testing");
+
+		 var x = 10;
+		 var y = 10;
+		 var w = 20;
+		 var h = 30;
+
+		 var speed = 2;
+
+
+		 var canvas = document.getElementById("mycanvas");
+	  	 var ctx = canvas.getContext("2d");
+
+		 var update = function() {
+			 var crossedRightLimit = x >=270;
+			 var crossedLeftLimit = x <= 10;
+			 
+			 var blueZone, greenZone;
+			 
+			 if(crossedRightLimit){
+				 x = 270;
+				 speed = -speed;
+			 }
+			 else if (crossedLeftLimit) {
+				 x = 10;
+				 speed = -speed;
+
+			}
+
+			 x = x + speed;
+	
+		};
+
+		 var draw = function(){
+			 ctx.clearRect(0, 0, 500, 300);
+			 
+			 blueZone = x > 0 && x < 100;
+			 greenZone = !blueZone && x < 200;
+
+
+			 if (blueZone) {
+				 console.log('blue')
+				 ctx.fillStyle = "#3333FF";
+				 ctx.fillRect(x, y, 50, 50);
+			 }
+			 else if(greenZone){
+				 console.log('green')
+				ctx.fillStyle = "#00CC66";
+				ctx.fillRect(x, y, 50, 50);
+			 }
+			 else {
+				 ctx.fillStyle = "rgb(200, 0, 200)";
+			 ctx.fillRect(x, y, 50, 50);
+			 }
+			 
+		 };
+		 var step = function() {
+		  update ();
+		  draw();
+
+		  window.requestAnimationFrame(step);
+		};
+
+		step();
+		</script>
+	</body>
+</html>

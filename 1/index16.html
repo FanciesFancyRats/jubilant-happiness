@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>Canvas</title>
+      		<style> canvas {border: 1px solid black;}</style>	
+	</head>
+	<body>
+		<h1>
+			Canvas
+		</h1>
+		<canvas width="200" height="200" id="myCanvas"></canvas>
+		<script> 
+		//document is the dom document object model
+		//we can use the method getElemenById to get any object refrenced by id
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+
+		//we need to get the context before we can use the canvas?
+
+		ctx.fillStyle = "rgb(200, 0, 200)";
+		ctx.fillRect(50, 40, 100, 30);
+		ctx.fillRect(12, 22, 33, 44);
+		ctx.fillStyle = "rgb(0, 200, 200)";
+		ctx.fillRect(100, 150, 70, 80);
+		console.log('testing testing');
+		</script>
+	</body>
+</html>

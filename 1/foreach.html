@@ -1,0 +1,49 @@
+<html>
+	<head></head>
+	<body>
+		<script> 
+		var array1 = ['a', 'b', 'c']
+
+		array1.forEach(function(element) {
+			console.log(element);
+		});
+		var array2 = [
+			{
+			a:1,
+			b:2,
+			c:3,
+			},
+			{
+			a:4,
+			b:5,
+			c:6,
+			},
+			{
+			a:7,
+			b:8,
+			c:9,
+			}
+		]
+
+		array2.forEach(function(element, index) {
+			console.log(element.a, index);
+			console.log(element.b, index);
+			console.log(element.c, index);
+			if (element.c > 5){
+			console.log("it's more than 5");	
+			};
+			if (element.b > 5){
+				element.b = element.b + 1000;
+				console.log(element.b);
+			};
+			if (element.a < 2){
+				element.a = 0;
+				console.log(element.a);
+			};
+
+
+		});
+
+		</script>
+	</body>
+</html>

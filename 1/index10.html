@@ -1,0 +1,27 @@
+<html>
+	<head></head>
+	<body>
+		Arrays and Objects
+		<script> 
+			var enemies = [
+				{x: 10, y: 50, energy: 100},
+				{x: 1, y: 5, energy: 1},
+				{x: 19, y: 55, energy: 90},
+				{x: 12, y: 60, energy: 10},
+			];
+			console.log(enemies[1].energy)
+			enemies[1].energy = 999;
+			console.log(enemies);
+
+			var player = {
+				name: 'Somebody',
+				energy: 10,
+				weapons: ['sword', 'gun', 'club']
+			};
+			player.weapons.push('axe');
+
+			console.log(player);
+		</script>
+		</script>
+	</body>
+</html>

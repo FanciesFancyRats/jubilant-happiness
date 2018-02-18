@@ -1,0 +1,27 @@
+<html>
+	<head></head>
+	<body>
+		<script> 
+			var fly = function() {
+				console.log('you are flying');
+			};
+			var player = {
+				x: 10,
+				y: 20,
+				energy: 100,
+				superpower: function(){
+					console.log('no superpower');
+				}
+			};
+			//player.superpower = fly
+			player.superpower();
+			player.superpower = fly;
+			player.superpower();
+
+			//function expression is a function stored on a variable
+			//functions can be assigned to variables and
+			//worked with the same way as other variables.
+
+		</script>
+	</body>
+</html>
