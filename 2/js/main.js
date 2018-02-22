@@ -113,11 +113,11 @@ var GameState = {
 	currentAnimalMovement.to({x: endX}, 1000);
 	currentAnimalMovement.start();
 
-	
+//I commented these two out, need to set up a work enviroment so I can test this out. I'll take a look when I get home	
 	//Move the current animal 
-	this.currentAnimal.x = endX;
+//	this.currentAnimal.x = endX;
 	//move the next animal in the group to the center of the game screen
-	newAnimal.x = this.game.world.centerX;
+//	newAnimal.x = this.game.world.centerX;
 	//change the variable over between the last and just moved animal
 	this.currentAnimal = newAnimal;
   }
