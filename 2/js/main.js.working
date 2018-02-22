@@ -1,7 +1,4 @@
-// Copy and pasted the example file. Not sure where I am making a mistake but I think it's somewhere in the group decleration.
-// Need to get on with the day though so I'll try and figure this out tonight.
-
-//this game will have only 1 state0
+//this game will have only 1 state
 var GameState = {
   //load the game assets before the game starts
   preload: function() {
@@ -33,18 +30,18 @@ var GameState = {
       {key: 'pig', text: 'PIG'},
       {key: 'sheep', text: 'SHEEP'}
     ];
-    
+
+    //create a group to store all animals
     this.animals = this.game.add.group();
 
-    var self = this;
+    var self = this;    
     var animal;
-
     animalData.forEach(function(element){
-      //create each animal and put it in the group
-      animal = self.animals.create(-1000, self.game.world.centerY, element.key);
+      //create each animal and save it's properties
+      animal = self.animals.create(-1000, self.game.world.centerY, element.key, 0);
 
-      //I'm saving everything that's not Phaser-related in a custom property
-      animal.customParams = {text: element.text};
+      //I'm saving everything that's not Phaser-related in an object
+      animal.customParams = {text: element.key};
 
       //anchor point set to the center of the sprite
       animal.anchor.setTo(0.5);
@@ -55,10 +52,10 @@ var GameState = {
       animal.events.onInputDown.add(self.animateAnimal, self);
     });
 
-    //place current animal in the middle
+    //place first animal in the middle
     this.currentAnimal = this.animals.next();
     this.currentAnimal.position.set(this.game.world.centerX, this.game.world.centerY);
-   
+
     //left arrow
     this.leftArrow = this.game.add.sprite(60, this.game.world.centerY, 'arrow');
     this.leftArrow.anchor.setTo(0.5);
@@ -90,38 +87,32 @@ var GameState = {
   },
   //switch animal
   switchAnimal: function(sprite, event) {
-	console.log('move animal');
+    
 
-	//1. get direction of arrow
-	if(sprite.customParams.direction > 0) {
-		newAnimal = this.animals.next();
-		newAnimal.x = -newAnimal.width/2;
-		endX = 640 + this.currentAnimal.width/2;
-		
-	}
-	else {
-		newAnimal = this.animals.previous();
-		newAnimal.x = 640 + newAnimal.width/2;
-		endX = -this.currentAnimal.width/2;
+    var newAnimal, endX;
+    //according to the arrow they pressed, which animal comes in
+    if(sprite.customParams.direction > 0) {
+      newAnimal = this.animals.next();
+      newAnimal.x = -newAnimal.width/2;
+      endX = 640 + this.currentAnimal.width/2;
+    }
+    else {
+      newAnimal = this.animals.previous();
+      newAnimal.x = 640 + newAnimal.width/2;
+      endX = -this.currentAnimal.width/2;
+    }
 
-	}
-	var newAnimalMovement = game.add.tween(newAnimal);
-	newAnimalMovement.to({x: this.game.world.centerX}, 1000);
-	newAnimalMovement.start();
-	
-	var currentAnimalMovement = game.add.tween(this.currentAnimal);
-	currentAnimalMovement.to({x: endX}, 1000);
-	currentAnimalMovement.start();
+    //tween animations, moving on x
+    var newAnimalMovement = this.game.add.tween(newAnimal);
+    newAnimalMovement.to({x: this.game.world.centerX}, 1000);
+    newAnimalMovement.start();  
 
-	
-	//Move the current animal 
-	this.currentAnimal.x = endX;
-	//move the next animal in the group to the center of the game screen
-	newAnimal.x = this.game.world.centerX;
-	//change the variable over between the last and just moved animal
-	this.currentAnimal = newAnimal;
+    var currentAnimalMovement = this.game.add.tween(this.currentAnimal);
+    currentAnimalMovement.to({x: endX}, 1000);
+    currentAnimalMovement.start();  
+
+    this.currentAnimal = newAnimal;
   }
-  
 
 };
 
