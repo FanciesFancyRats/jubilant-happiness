@@ -91,6 +91,13 @@ var GameState = {
   //switch animal
   switchAnimal: function(sprite, event) {
 	console.log('move animal');
+	
+	if(this.isMovingx) {
+
+		return true;		
+	}
+	
+	this.isMovingx = true;
 
 	//1. get direction of arrow
 	if(sprite.customParams.direction > 0) {
@@ -107,6 +114,9 @@ var GameState = {
 	}
 	var newAnimalMovement = game.add.tween(newAnimal);
 	newAnimalMovement.to({x: this.game.world.centerX}, 1000);
+	newAnimalMovement.onLoop.add(function(){
+		this.isMovingx = true;	
+	}, this);
 	newAnimalMovement.start();
 	
 	var currentAnimalMovement = game.add.tween(this.currentAnimal);
