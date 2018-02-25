@@ -1,17 +1,26 @@
-// Copy and pasted the example file. Not sure where I am making a mistake but I think it's somewhere in the group decleration.
-// Need to get on with the day though so I'll try and figure this out tonight.
-
+//Text isn't working properly, it's hiding the rest of the sprites. I'll try to figure this out later tonight
 //this game will have only 1 state0
 var GameState = {
   //load the game assets before the game starts
   preload: function() {
-    this.game.load.image('background', 'assets/images/background.png');
-    this.game.load.image('arrow', 'assets/images/arrow.png');
-    this.game.load.image('chicken', 'assets/images/chicken.png');
-    this.game.load.image('horse', 'assets/images/horse.png');
-    this.game.load.image('pig', 'assets/images/pig.png');
-    this.game.load.image('sheep', 'assets/images/sheep3.png');
-    
+   this.game.load.image('background', 'assets/images/background.png');
+   this.game.load.image('arrow', 'assets/images/arrow.png');
+   //this.game.load.image('chicken', 'assets/images/chicken.png');
+   // this.game.load.image('horse', 'assets/images/horse.png');
+   // this.game.load.image('pig', 'assets/images/pig.png');
+   // this.game.load.image('sheep', 'assets/images/sheep3.png');
+   
+	this.load.spritesheet('chicken', 'assets/chicken_spritesheet.png',131,200,3);
+	this.load.spritesheet('horse', 'assets/horse_spritesheet.png',212,200,3);
+	this.load.spritesheet('pig', 'assets/pig_spritesheet.png', 297, 200, 3);
+	this.load.spritesheet('sheep', 'assets/sheep_spritesheet.png',244,200,3);
+	
+	this.load.audio('chickenSound', ['assets/audio/chicken.ogg', 'assets/audio/chicken.mp3']);
+	this.load.audio('horseSound', ['assets/audio/horse.ogg', 'assets/audio/horse.mp3']);
+	this.load.audio('pigSound', ['assets/audio/pig.ogg', 'assets/audio/pig.mp3']);
+	this.load.audio('sheepSound', ['assets/audio/sheep.ogg', 'assets/audio/sheep.mp3']);
+
+
   },
   //executed after everything is loaded
   create: function() {
@@ -28,10 +37,10 @@ var GameState = {
     
     //group for animals
     var animalData = [
-      {key: 'chicken', text: 'CHICKEN'},
-      {key: 'horse', text: 'HORSE'},
-      {key: 'pig', text: 'PIG'},
-      {key: 'sheep', text: 'SHEEP'}
+      {key: 'chicken', text: 'CHICKEN', audio: 'chickenSound'},
+      {key: 'horse', text: 'HORSE', audio: 'horseSound'},
+      {key: 'pig', text: 'PIG', audio: 'pigSound'},
+      {key: 'sheep', text: 'SHEEP', audio: 'sheepSound'}
     ];
     
     this.animals = this.game.add.group();
@@ -41,13 +50,16 @@ var GameState = {
 
     animalData.forEach(function(element){
       //create each animal and put it in the group
-      animal = self.animals.create(-1000, self.game.world.centerY, element.key);
+      animal = self.animals.create(-1000, self.game.world.centerY, element.key, 0);
 
       //I'm saving everything that's not Phaser-related in a custom property
-      animal.customParams = {text: element.text};
+      animal.customParams = {text: element.text, sound: self.game.add.audio(element.audio)};
 
       //anchor point set to the center of the sprite
       animal.anchor.setTo(0.5);
+
+      //Create animal animation
+      animal.animations.add('animate', [0, 1, 2, 1, 0, 1], 3, false);
 
       //enable input so we can touch it
       animal.inputEnabled = true;
@@ -58,7 +70,10 @@ var GameState = {
     //place current animal in the middle
     this.currentAnimal = this.animals.next();
     this.currentAnimal.position.set(this.game.world.centerX, this.game.world.centerY);
-   
+    
+    //show Animal Text
+    this.showText(this.currentAnimal);
+
     //left arrow
     this.leftArrow = this.game.add.sprite(60, this.game.world.centerY, 'arrow');
     this.leftArrow.anchor.setTo(0.5);
@@ -87,6 +102,8 @@ var GameState = {
   //play animal animation
   animateAnimal: function(sprite, event) {
     console.log('animate..');
+    sprite.play('animate');
+    sprite.customParams.sound.play(); 
   },
   //switch animal
   switchAnimal: function(sprite, event) {
@@ -94,10 +111,13 @@ var GameState = {
 	
 	if(this.isMovingx) {
 
-		return true;		
+		return false;		
 	}
 	
 	this.isMovingx = true;
+
+	//hide text
+	this.animalText.visible = false;
 
 	//1. get direction of arrow
 	if(sprite.customParams.direction > 0) {
@@ -114,8 +134,9 @@ var GameState = {
 	}
 	var newAnimalMovement = game.add.tween(newAnimal);
 	newAnimalMovement.to({x: this.game.world.centerX}, 1000);
-	newAnimalMovement.onLoop.add(function(){
-		this.isMovingx = true;	
+	newAnimalMovement.onComplete.add(function(){
+		this.isMovingx = false;	
+		this.showText(newAnimal);
 	}, this);
 	newAnimalMovement.start();
 	
@@ -130,7 +151,16 @@ var GameState = {
 //	newAnimal.x = this.game.world.centerX;
 	//change the variable over between the last and just moved animal
 	this.currentAnimal = newAnimal;
-  }
+  },
+	showText: function(animal) {
+	if(!this.animalText){
+		this.animalText = this.game.add.text(this.game.width/2, this.game.height * 0.85, '');
+	this.animalText.ancor.setTo(0.5);
+	}
+
+	this.animalText.setText(animal.customParams.text);
+	this.animalText.visible = true;
+	}
   
 
 };
