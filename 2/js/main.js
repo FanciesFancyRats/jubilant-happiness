@@ -3,8 +3,8 @@
 var GameState = {
   //load the game assets before the game starts
   preload: function() {
-   this.game.load.image('background', 'assets/images/background.png');
-   this.game.load.image('arrow', 'assets/images/arrow.png');
+   this.game.load.image('background', 'assets/background.png');
+   this.game.load.image('arrow', 'assets/arrow.png');
    //this.game.load.image('chicken', 'assets/images/chicken.png');
    // this.game.load.image('horse', 'assets/images/horse.png');
    // this.game.load.image('pig', 'assets/images/pig.png');
@@ -154,10 +154,12 @@ var GameState = {
   },
 	showText: function(animal) {
 	if(!this.animalText){
-		this.animalText = this.game.add.text(this.game.width/2, this.game.height * 0.85, '');
-	this.animalText.ancor.setTo(0.5);
+		//new Text(game, x, y, text, style)
+		this.animalText = this.game.add.text(this.game.width/2, this.game.height * 0.85, ''); 
+		this.animalText.anchor.setTo(0.5);
+		console.log('text was called');
 	}
-
+  
 	this.animalText.setText(animal.customParams.text);
 	this.animalText.visible = true;
 	}
