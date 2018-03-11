@@ -6,6 +6,9 @@ var PreloadState = {
 		this.preloadBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 129, 'preloadBar');
 		this.preloadBar.anchor.setTo(0.5);
 
+		this.load.setPreloadSprite(this.preloadBar);
+		this.load.image('background', 'assets/thing.png');
+
 		this.load.image('backyard', 'assets/images/backyard.png');
 		this.load.image('apple', 'assets/images/apple.png');
 		this.load.image('candy', 'assets/images/candy.png');
@@ -14,4 +17,7 @@ var PreloadState = {
 		this.load.image('arrow', 'assets/images/arrow.png');
 		this.load.spritesheet('pet', 'assets/images/pet.png', 97, 83, 5, 1, 1);
 	},
+	create: function() {
+		this.state.start('HomeState');
+	}
 };
